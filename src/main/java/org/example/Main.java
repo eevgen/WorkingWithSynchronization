@@ -28,7 +28,7 @@ public class Main {
         return new Thread(() -> IntStream.range(0, amountOfIncrementing).forEach(i -> incrementNumber()));
     }
 
-    private static void incrementNumber() {
+    private synchronized static void incrementNumber() {
         counter++;
     }
 }
