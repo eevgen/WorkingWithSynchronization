@@ -15,6 +15,9 @@ public class Main {
 
     private static final String MESSAGE_TEMPLATE_FOR_COUNTERS = "Number = %d\n";
 
+    private static final Object LOCK_FOR_FIRST_COUNTER = new Object();
+    private static final Object LOCK_FOR_SECOND_COUNTER = new Object();
+
     public static void main(String[] args){
 
         Thread thread1 = creatingNewThreads(INCREMENT_ALL_NUMBERS_FIRST_THREAD, i -> incrementFirstNumber());
@@ -51,10 +54,14 @@ public class Main {
         Arrays.stream(integers).forEach(integer -> System.out.printf(MESSAGE_TEMPLATE_FOR_COUNTERS, integer));
     }
 
-    private synchronized static void incrementFirstNumber() {
-        counter1++;
+    private static void incrementFirstNumber() {
+        synchronized (LOCK_FOR_FIRST_COUNTER) {
+            counter1++;
+        }
     }
     private synchronized static void incrementSecondNumber() {
-        counter2++;
+        synchronized (LOCK_FOR_SECOND_COUNTER) {
+            counter2++;
+        }
     }
 }
